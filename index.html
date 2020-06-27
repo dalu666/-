@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>发布订阅者模式</div>
+    <div id="add">add</div>
+</body>
+<script src="listen.js"></script>
+<script>
+    console.log(11)
+    houseObj.listen((size)=>{
+        console.log('小红的房子'+size)
+    })
+    houseObj.listen((size)=>{
+        console.log('小绿的房子'+size)
+    })
+    // houseObj.trigger(100)
+</script>
+</html>

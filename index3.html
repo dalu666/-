@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>发布订阅者模式</div>
+    <div id="add">add</div>
+</body>
+<script>
+    let event={
+        list:{},
+        listen:function(key,fn){   
+            (this.list[key] || (this.list[key]=[])).push(fn)
+        },
+        trigger:trigger=function(){   
+            let key=Array.prototype.shift.call(arguments);
+            let fns=this.list[key];
+            if(!fns || fns.length===0){
+                return;
+            }
+            for(let i=0,fn;fn=fns[i++];){
+                fn.apply(this,arguments)
+            }
+        }
+    }
+    let initEvent=((obj)=>{
+        for(let i in event){
+            console.log(i)
+            obj[i]=event[i];
+        }
+    })
+    let houseObj={};
+    initEvent(houseObj)
+    houseObj.listen('big',(size)=>{
+        console.log('小红的房子'+size)
+    })
+    houseObj.listen('small',(size)=>{
+        console.log('小绿的房子'+size)
+    })
+    houseObj.trigger('big',100)
+    houseObj.trigger('small',80)
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>删 发布订阅者模式</div>
+    <div id="add">add</div>
+</body>
+<script>
+    let Event=(function(){
+        let list={},
+        listen,
+        trigger,
+        remove;
+        listen=function(key,fn){   
+            (list[key] || (list[key]=[])).push(fn)
+        },
+        trigger=trigger=function(){   
+            let key=Array.prototype.shift.call(arguments);
+            let fns=list[key];
+            if(!fns || fns.length===0){
+                return;
+            }
+            for(let i=0,fn;fn=fns[i++];){
+                fn.apply(this,arguments)
+            }
+        },
+        remove=function(key,fn){
+            let fns=this.list[key];
+            if(!fns){
+                return false;
+            }
+            console.log(fn)
+            // 清空
+            if(!fn){
+                fn && (fns.length=0)
+            }else{
+                for(let i=fns.length-1;i>=0;i--){
+                    let _fn=fns[i];
+                    _fn===fn && (fns.splice(i,1)) //删除订阅对应的回调函数
+                }
+            }
+        }
+        return{
+            listen,
+            trigger,
+            remove
+        }
+    })()
+    
+    Event.listen('big',fn1=(size)=>{
+        console.log('小红的房子'+size)
+    })
+    
+    Event.trigger('big',100)
+   
+</script>
+</html>

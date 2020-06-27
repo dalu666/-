@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>删 发布订阅者模式</div>
+    <div id="add">add</div>
+</body>
+<script>
+    let event={
+        list:{},
+        listen:function(key,fn){   
+            (this.list[key] || (this.list[key]=[])).push(fn)
+        },
+        trigger:trigger=function(){   
+            let key=Array.prototype.shift.call(arguments);
+            let fns=this.list[key];
+            if(!fns || fns.length===0){
+                return;
+            }
+            for(let i=0,fn;fn=fns[i++];){
+                fn.apply(this,arguments)
+            }
+        }
+    }
+    event.remove=function(key,fn){
+        let fns=this.list[key];
+        if(!fns){
+            return false;
+        }
+        console.log(fn)
+        // 清空
+        if(!fn){
+            fn && (fns.length=0)
+        }else{
+            for(let i=fns.length-1;i>=0;i--){
+                let _fn=fns[i];
+                _fn===fn && (fns.splice(i,1)) //删除订阅对应的回调函数
+            }
+        }
+    }
+    
+    let initEvent=((obj)=>{
+        for(let i in event){
+           
+            obj[i]=event[i];
+        }
+    })
+    let houseObj={};
+    initEvent(houseObj)
+    houseObj.listen('big',fn1=()=>{
+        console.log('小红的房子800')
+    })
+    houseObj.listen('big',fn2=()=>{
+        console.log('小绿的房子300')
+    })
+    houseObj.remove('big',fn2)
+    houseObj.trigger('big',100)
+    // houseObj.trigger('small',80)
+    console.log(houseObj.list)
+</script>
+</html>

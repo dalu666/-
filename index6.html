@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>发布订阅者模式</div>
+    <div id="add">add</div>
+    <div class="con">
+        <div class="box-1"> </div>
+        <div class="box-2"></div>
+    </div>
+</body>
+<script src="index6.js"></script>
+<script>
+   let dataObj={} //vue data
+   dataHijack({
+       data:dataObj,//vuedata
+       tag:'view-1',//元素
+       datakey:'one',  //key
+       selector:'.box-1'
+   })
+   dataHijack({
+       data:dataObj,//vuedata
+       tag:'view-2',//元素
+       datakey:'two',  //key
+       selector:'.box-2'
+   })
+//    初始化
+dataObj.one="one";
+dataObj.two="two"
+</script>
+</html>
